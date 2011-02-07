@@ -6,6 +6,7 @@
 #include <util/delay.h>
 #include "led.h"
 #include "serial.h"
+#include "sensors.h"
 
 int inc = 0;
 volatile int enable_B2 = 0b00000000;
@@ -58,6 +59,7 @@ sei();
 			_delay_ms(100);
 			
 		serial_out("this is team scam\r\n\0");
+		void print_adc();
 
             }
        }

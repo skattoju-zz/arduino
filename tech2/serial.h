@@ -3,8 +3,8 @@
 #define SERIAL_H
 
 void serial_init(unsigned int BAUD_PRESCALE);
-void serial_write(unsigned char c);
+void serial_write(const char c);
 char serial_read();
-void serial_out(char* str);
+void serial_out(const char* str);
 
 #endif

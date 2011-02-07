@@ -17,7 +17,7 @@ void serial_init(unsigned int BAUD_PRESCALE){
 	return;
 }
 
-void serial_write(unsigned char c)
+void serial_write(const char c)
 {
 	//wait for UDR to be ready for data
 	while ( !(UCSRA & (1 << UDRE)) ){};
@@ -29,19 +29,18 @@ void serial_write(unsigned char c)
 char serial_read(){
 
 	// wait until data have been recieved and is ready to be read from UDR
-	while (!(UCSRA & (1 << RXC))) {}; 
+	while ( !(UCSRA & (1 << RXC)) ){};
 
 	// return the byte
-	return(UDR); 
+	return UDR; 
 
 }
 
-void serial_out(char* str){
+void serial_out(const char* str){
 
-	int c = 0;
-	while(str[c] != '\0'){
-		serial_write(str[c]);
-		c++;
+	while(*str){
+
+		serial_write(*str++);
 	}
 
 }

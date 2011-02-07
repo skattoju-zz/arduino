@@ -1,6 +1,6 @@
 # AVR-GCC Makefile
 PROJECT=tech2
-SOURCES=tech2.c led.c serial.c 
+SOURCES=tech2.c led.c serial.c sensors.c
 CC=avr-gcc
 OBJCOPY=avr-objcopy
 MMCU=atmega8
