@@ -8,14 +8,11 @@
 #include "led.h"
 #include "serial.h"
 #include "sensors.h"
-#include "tech2_util.h"
 
 int inc = 0;
 volatile int enable_B2 = 0b00000000;
 
 int main() {
-char* str;
-itoa(1000,str,10);
 // setting up external interrupt to trigger at falling edge
       MCUCR |= 0<<1;
       MCUCR |= 1<<0;
