@@ -1,4 +1,4 @@
-char* itoa( int number ) {
+extern char *itoa( int number ) {
 
                 /* convert ADC value to ascii for UART */
 		char* buffer[4];
