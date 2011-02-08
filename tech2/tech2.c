@@ -7,6 +7,7 @@
 #include "led.h"
 #include "serial.h"
 #include "sensors.h"
+#include "tech2_util.h"
 
 int inc = 0;
 volatile int enable_B2 = 0b00000000;
@@ -21,7 +22,6 @@ int main() {
 
 sei();
 // setting up timer interrupt
-          //TIMSK |= 1 << 0;
           TCCR1A = 0b0000000;
 	  TCCR1B = 0b0001010;
 
@@ -58,7 +58,7 @@ sei();
 			TIMSK = TIMSK ^ (1 << 4);
 			_delay_ms(100);
 			
-		serial_out("this is team scam\r\n\0");
+		serial_print("this is team scam\r\n\0");
 		void print_adc();
 
             }
