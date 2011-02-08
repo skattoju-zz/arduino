@@ -33,9 +33,8 @@ void adc_clear_interrupt_flag(void)
 
 
 /* get ADC Value */
-void print_adc(){
+uint8_t get_adc(){
 
-		char buffer[4]; 
 		uint8_t adc_value;        /* sensor ADC value */
 		//uint8_t distance;       /* sensor distance in cm */
 
@@ -43,14 +42,17 @@ void print_adc(){
                 while(adc_conversion_in_progress());
                 adc_value = ADCH;
                 adc_clear_interrupt_flag();
-                
+
+		return(adc_value);                
+}
                 /* calculate the distance */
                 //distance = gp2d120_adc8_to_cm(adc_value);
       
                 /* convert ADC value to ascii for UART */
-                itoa (adc_value, buffer, 10);
-		serial_write('\t');
-                serial_out((char*)buffer);
+		// char buffer[4]; 
+                // itoa (adc_value, buffer, 10);
+		// serial_write('\t');
+                // serial_out((char*)buffer);
                                 
                 /* convert distance to ascii for UART
                 itoa (distance, buffer, 10);
@@ -61,6 +63,3 @@ void print_adc(){
                 
                 /* long delay */
                 //for (i=0; i<20; i++) { _delay_ms(250); }
-
-
-}

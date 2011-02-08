@@ -14,6 +14,6 @@ int adc_conversion_in_progress(void);
 void adc_clear_interrupt_flag(void);
 
 /* get ADC Value */
-void print_adc();
+uint8_t get_adc();
 
 #endif
