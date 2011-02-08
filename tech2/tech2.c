@@ -70,6 +70,7 @@ ISR(INT0_vect) {
 	if ((PIND & 0b00000100) == 0b00000100) {
 		// so turn on an led
 		turnOnLed1();
+	}
 	// if pin is low, there is no object
 	else {
 		// so turn off led
