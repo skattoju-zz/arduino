@@ -18,14 +18,14 @@ int main() {
       MCUCR |= 1<<0;
 
 //enable external interrupt
-      GICR |= 0b1 << 6;
+        GICR |= 0b1 << 6;
 
-	// global interrupts enable
+// global interrupts enable
 	sei();
 
 // setting up timer interrupt
-          TCCR1A = 0b0000000;
-	  TCCR1B = 0b0001010;
+        TCCR1A = 0b0000000;
+	TCCR1B = 0b0001010;
 
 // setting up port C for LED output
       	DDRC |= 0b111;
@@ -63,6 +63,7 @@ int main() {
 
 // interrupt service routine for B1 clicks
 ISR(INT0_vect) {
+
 	// Delay (for debouncing)
 	_delay_ms(50);
 
@@ -77,8 +78,8 @@ ISR(INT0_vect) {
 		turnOffLed1();
 	}
 
-	  // Clear the external interrupt flag.
-	  // Used for debouncing, cancels any
+	// Clear the external interrupt flag.
+	// Used for debouncing, cancels any
 	  // interrupt that happened during the
 	  // debounce period.
 	  GIFR = 1 << 6;
