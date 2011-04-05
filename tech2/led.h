@@ -8,5 +8,10 @@ void turnOffLed1();
 void turnOffLed2();
 void turnOnBothLeds();
 void turnOffBothLeds();
+void init_leds();
+void blink();
+void startblink();
+void turnOntest();
+void turnOfftest();
 
 #endif

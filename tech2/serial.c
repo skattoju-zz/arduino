@@ -1,29 +1,42 @@
 /*serial communications interface*/
 #include <avr/io.h>
+#include <string.h>
+#include <stdlib.h>
 
-void serial_init(unsigned int BAUD_PRESCALE){
+#define F_CPU 1000000
 
-	// Load lower 8-bits of the baud rate value into the low byte of the UBRR register 
-  	UBRRL = BAUD_PRESCALE; 
-	// Load upper 8-bits of the baud rate value into the high byte of the UBRR register
-  	UBRRH = (BAUD_PRESCALE >> 8);
 
-	// Use 8-bit character sizes even parity  
-  	UCSRC = (1<<URSEL)|(1<<USBS)|(1<<UCSZ1);
+void serial_init(unsigned int baud){
 
-	// Enable TX and RX circuits
-	UCSRB |= (1 << RXEN) | (1 << TXEN); 
+  //  uint16_t i = (F_CPU/(32*baud))-1;
+  //UBRRL = (unsigned char)(uint8_t)i;
+  //UBRRH = (unsigned char)(uint8_t)(i >> 8);
+  UBRRL = 25;
+  //UBRRH = 0 << URSEL;
+  //UBRRH = 0;
+  UCSRA = 0 << 1;
+  UCSRB |= (1 << RXEN) | (1 << TXEN); // enabled
+  UCSRB = 0b11111000;
 
-	return;
+  UCSRC = 1 << URSEL;
+  UCSRC = (1 << URSEL) | 0b10000110; // no parity, 8 data bits, 1 stop bits 
+  
 }
 
-void _serial_write(const char c)
+void _serial_write(unsigned char c)
 {
+
+	
 	//wait for UDR to be ready for data
-	while ( !(UCSRA & (1 << UDRE)) ){};
+	while ( !(UCSRA & (1 << UDRE)) );
 
 	//write data to UDR
-	UDR = c;
+	UDR = (unsigned char)c;
+}
+
+void _serial_test(uint8_t data) {
+	while ((UCSRA&(1<<UDRE)) == 0);
+	UDR = data;
 }
 
 char serial_read(){
@@ -32,26 +45,35 @@ char serial_read(){
 	while ( !(UCSRA & (1 << RXC)) ){};
 
 	// return the byte
-	return UDR; 
+	return UDR;
 
 }
 
-void _serial_out(const char* str){
+void serial_print(char* str){
 
-	while(*str){
+	while(*str != '\0'){
 
-		_serial_write(*str++);
+		//_serial_write(*str++);
 	}
+	//_serial_write('\r');
+	//_serial_write('\n');
 
 }
 
-void serial_print(const char* str) {
-
-	//do the actual writing
-	_serial_out(str);
-
-	//write a newline for readability
-	_serial_out("\r\n\0");
-
-
+void _serial_dbg(int val) {
+//	char* ita;
+	int i;
+	unsigned char c;
+	while (val > 0) {
+		i = val % 10;
+		if (i > 0) {
+			c = (unsigned char)(i+48);
+		} else {
+			c = (unsigned char)48;
+		}
+		//_serial_write((unsigned char)c);
+		val = val/10;
+	}
+		_serial_test('a');
+	// serial_print((char*)ita);
 }
