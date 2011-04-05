@@ -1,0 +1,76 @@
+/*serial communications interface*/
+#include <avr/io.h>
+#include <string.h>
+#include <stdlib.h>
+void serial_init(unsigned int BAUD_PRESCALE){
+
+	// Load lower 8-bits of the baud rate value into the low byte of the UBRR register 
+  	UBRRL = BAUD_PRESCALE;
+	// Load upper 8-bits of the baud rate value into the high byte of the UBRR register
+  	UBRRH = (BAUD_PRESCALE >> 8);
+	// Use 8-bit data bits and one stop bit and even parity.
+  	UCSRC =  (1 << URSEL);   //select UCSRC
+  	UCSRC = )
+		|(1 << UCSZ0)  //8 data bits
+		|(1 << UPM1);  //even parity
+
+	// Enable TX and RX circuits
+	UCSRB |= (1 << RXEN) | (1 << TXEN);
+
+	return;
+}
+
+void _serial_write(unsigned char c)
+{
+
+	
+	//wait for UDR to be ready for data
+	while ( !(UCSRA & (1 << UDRE)) );
+
+	//write data to UDR
+	UDR = (unsigned char)c;
+}
+
+void _serial_test(uint8_t data) {
+	while ((UCSRA&(1<<UDRE)) == 0);
+	UDR = data;
+}
+
+char serial_read(){
+
+	// wait until data have been recieved and is ready to be read from UDR
+	while ( !(UCSRA & (1 << RXC)) ){};
+
+	// return the byte
+	return UDR;
+
+}
+
+void serial_print(char* str){
+
+	while(*str != '\0'){
+
+		//_serial_write(*str++);
+	}
+	//_serial_write('\r');
+	//_serial_write('\n');
+
+}
+
+void _serial_dbg(int val) {
+//	char* ita;
+	int i;
+	unsigned char c;
+	while (val > 0) {
+		i = val % 10;
+		if (i > 0) {
+			c = (unsigned char)(i+48);
+		} else {
+			c = (unsigned char)48;
+		}
+		//_serial_write((unsigned char)c);
+		val = val/10;
+	}
+		_serial_test('a');
+	// serial_print((char*)ita);
+}
