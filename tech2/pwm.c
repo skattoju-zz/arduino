@@ -63,11 +63,11 @@ void update_led_brightness(){
 		 */
 		//OCR0A++; //fade up.
 		//OCR0B++; //fade down.
-		
+
 		static uint16_t pwm = 0;
 
 		float speed = get_speed();
-		
+
 		if(speed > speed_old){
 
 		    pwm = (pwm == 0x03FF ? 0x03FF : pwm+5);

@@ -11,7 +11,7 @@ void serial_init(unsigned int baud){
 
 	uint16_t i = (F_CPU/(8*baud))-1;
 
-	// Load lower 8-bits of the baud rate value into the low byte of the UBRR register 
+	// Load lower 8-bits of the baud rate value into the low byte of the UBRR register
   	UBRRL = i;
 	// Load upper 8-bits of the baud rate value into the high byte of the UBRR register
   	UBRRH = i >> 8;
@@ -43,14 +43,14 @@ void serial_print(char* str[]) {
   _serial_write((char)"\n");
   _serial_write((char)"\r");
 
-  
+
 }
 
 
 void _serial_write(unsigned char c)
 {
 
-	
+
 	//wait for UDR to be ready for data
 	while ( !(UCSRA & (1 << UDRE)) );
 
@@ -86,12 +86,12 @@ char serial_read(){
 // void serial_print(const char* str){
 //   _serial_write(*str);
 // 	while(*str != '\0'){
-// 
+//
 // 		_serial_write(*str++);
 // 	}
 // 	_serial_write('\r');
 // 	_serial_write('\n');
-// 
+//
 // }
 
 

@@ -59,7 +59,7 @@ void adc_clear_interrupt_flag(void)
 
 uint8_t calc_avg(uint8_t newval) {
         uint8_t sum = 0;
-	
+
 	int i =0;
         for (i=0; i<4; i++) {
                 adc_data[i+1] = adc_data[i];
@@ -95,7 +95,7 @@ uint8_t get_adc(){
 
 int get_avg_adc(){
 
-	
+
 	int sum = 0;
 	int avg;
 	int i = 0;

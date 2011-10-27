@@ -8,7 +8,7 @@
 #include "sensors.h"
 #include "serial.h"
 #include "util.h"
-  
+
 #define MOTOR1A OCR0A //pin 12, PD6
 #define MOTOR1B OCR0B //pin 11, PD5
 #define MOTOR1E OCR2A //pin 17, PB3
@@ -33,7 +33,7 @@ int main() {
   PORTB |= 0b10110001;
   blink();
 
-  //init adc  
+  //init adc
   adc_init();
   //enable motors
   PORTB |= _BV(MOTOR1E_PIN);
@@ -43,13 +43,13 @@ int main() {
   //sei();
   //setup_interrupts();
   //serial_init(9600);
-  
 
-  
+
+
   //int val = 0;
-  
+
   while (1) {
-    
+
     blink();
     //poll_sensors();
     stop();

@@ -49,7 +49,7 @@ void main() {
 
 // setting up port D for input
 	DDRD = 0b0000;
-// might be needed:	
+// might be needed:
 	PORTD = 0b1100;
 
 // initial blink
@@ -59,7 +59,7 @@ void main() {
 
 // main loop that polls B2
        while (1) {
-		// Or PIND with 
+		// Or PIND with
 			PORTB = PIND | 0b11110111;
                if ((PIND | 0b11110111) == 0b11110111) {
                        //_delay_ms(256);
@@ -95,7 +95,7 @@ ISR(INT0_vect) {
        case 4:
                turnOffLed1();
 		turnOnLed2();
-		// disable external interrupt? 
+		// disable external interrupt?
                GICR |= 1<<6;
                break;
 

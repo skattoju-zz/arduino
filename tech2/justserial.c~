@@ -12,20 +12,20 @@ int main() {
   init_leds();
   PORTD = 0b10;
   serialstart(2400);
-  
+
   while (1) {
-    
+
     turnOfftest();
     _delay_ms(1500);
     serialwrite('a');
     while ((UCSRA & 0b01000000) == 0b00000000);
-    
+
     if ((UCSRA & 0b01000000) == 0b01000000) { turnOntest(); }
 //     else {
 //       turnOfftest();
 //     }
   _delay_ms(1500);
-    
+
   }
   return 0;
 }
@@ -43,7 +43,7 @@ void serialstart(int baud){
   UCSRB = 0b11111000;
 
   UCSRC = 1 << URSEL;
-  UCSRC = (1 << URSEL) | 0b10000110; // even parity, 8 data bits, 2 stop bits  
+  UCSRC = (1 << URSEL) | 0b10000110; // even parity, 8 data bits, 2 stop bits
 }
 
 void serialwrite(uint8_t c) {

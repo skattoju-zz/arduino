@@ -43,13 +43,13 @@ char isContacted = 0;
 
 
 // float get_speed() {
-// 
+//
 // 	//this is fail because you don't compensate for your own speed.
-// 
+//
 // 	dist_data[1] = dist_data[0];
 // 	dist_data[0] = get_distance();
 // 	return (dist_data[0]-dist_data[1] / SPEED_INTERVAL);
-// 
+//
 // 	//have to compensate for your own speed!!!
 // }
 
@@ -63,28 +63,28 @@ float getDistanceFromSensor(int adc_channel) {
 int align(char left, char right, int leftVal, int rightVal){
   if (leftVal > rightVal) {
       while (abs(leftVal - rightVal) > SEP) {
-	
+
 	turnRight();
 	_delay_ms(100);
-	
+
 	leftVal  = getDistanceFromSensor(left);
 	rightVal = getDistanceFromSensor(right);
       }
       return 1;
     } else {
       while (abs(leftVal - rightVal) > SEP) {
-	
+
 	turnLeft();
 	_delay_ms(100);
-	
+
 	leftVal  = getDistanceFromSensor(left);
 	rightVal = getDistanceFromSensor(right);
       }
-  
+
       return 1;
-      
+
     }
-  
+
   return 0;
 }
 
@@ -100,26 +100,26 @@ void align34(){
 int poll_sensors(){
   // holds the sensors values
   float sensorVals[4] = {0,0,0,0};
-  
+
   int i=0;
   for (i=0; i < 4; i++) {
     sensorVals[i] = getDistanceFromSensor(i);
   }
-  
+
   if ((sensorVals[IR_FRONT_LEFT] > DETECT_DISTANCE) || (sensorVals[IR_FRONT_RIGHT] > DETECT_DISTANCE)) {
     if (abs(sensorVals[IR_FRONT_LEFT] - sensorVals[IR_FRONT_RIGHT]) < SEP) {
-      
+
       moveForward();
       return 1;
-      
+
     }
-    
+
     return align(IR_FRONT_LEFT, IR_FRONT_RIGHT, sensorVals[IR_FRONT_LEFT], sensorVals[IR_FRONT_RIGHT]);
-    
+
   }
 //   else if ((sensorVals[2] < 30) || (sensorVals[3] < 30)) {
 //     align34(sensorVal[
-  
+
 //   if((getDistanceFromSensor1() < 30) || (getDistanceFromSensor2() < 30)){
 //     align12();
 //     if((getDistanceFromSensor1() < 30) && (getDistanceFromSensor2() < 30) && (building1() > 30))
@@ -129,7 +129,7 @@ int poll_sensors(){
 //   }
 //   else if((getDistanceFromSensor4() < 30) || (getDistanceFromSensor3() < 30)){
 //     align34();
-//     if((getDistanceFromSensor3() < 30) && (getDistanceFromSensor4() < 30) && (building2() > 30)) 
+//     if((getDistanceFromSensor3() < 30) && (getDistanceFromSensor4() < 30) && (building2() > 30))
 //     {
 //       return 2;
 //     }
@@ -157,23 +157,23 @@ int rwContact(){
 int fwContact(){
 
 	if((PORTD&0b100000000) || (PORTD&0b000010000)){
-		
-	
+
+
 		return 1;
 	}
 	else{
-		
-	
+
+
 		return 0;
 	}
 }
 
 void evade() {
-  
+
 }
 
 void attack() {
-  
+
 }
 
 void setup_interrupts(){
@@ -181,7 +181,7 @@ void setup_interrupts(){
 	/*
 		enable pin change interrupts on PORTB and PORTD
 	*/
-	
+
 	//PCICR |= ~(_BV(PCIE1) && _BV(PCIE0) );
 	//1<<2 ---> 00000010
 	sei();
@@ -189,7 +189,7 @@ void setup_interrupts(){
 	PORTD |= 0b00010110;
 	/*
 	//PCIFR ---> set when interrupt happens
-	//PCIF0 --_> pin change on PORTB 
+	//PCIF0 --_> pin change on PORTB
 	//PCIF1 ---> pin change on PORTC
 	*/
 
@@ -204,9 +204,9 @@ void setup_interrupts(){
 		PB5 ---> PCINT5
 		PB7 ---> PCINT6
 		*/
-		
+
 	PCMSK0 |=0b10110001;
-	
+
 	/*
 		PD1 ---> PCINT16
 		PD2 ---> PCINT18        <---- Line Sensors
@@ -240,9 +240,9 @@ ISR(PCINT0_vect){
   if(PINB & CONTACT_RIGHT){
    turnLeft();
    //isContacted = 1;
-  }	
+  }
   // back
-  if(PINB & CONTACT_BACK){	
+  if(PINB & CONTACT_BACK){
     moveBackward();
     isContacted = 1;
     push(CONTACT_BACK);
@@ -253,7 +253,7 @@ ISR(PCINT0_vect){
     isContacted = 1;
     push(CONTACT_FRONT);
   }
-  PCIFR = 0b00000000; 
+  PCIFR = 0b00000000;
 }
 
 ISR(PCINT2_vect){
@@ -274,9 +274,9 @@ ISR(PCINT2_vect){
     // turnLeft();
     // _delay_ms(2000);
     // moveForward();
-  // }	
+  // }
   //back left
-  else if(PIND & LINE_BACK_LEFT){	
+  else if(PIND & LINE_BACK_LEFT){
     stop();
 	blink1();
 	moveForward();
@@ -298,7 +298,7 @@ ISR(PCINT2_vect){
   if (isContacted) {
     win();
   }
-PCIFR = 0b00000000; 
+PCIFR = 0b00000000;
 }
 /*
 void setupContactSensors(){
