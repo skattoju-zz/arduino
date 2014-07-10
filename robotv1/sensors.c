@@ -55,7 +55,7 @@ void blink1() {
 void adc_init(){
   DDRC = 0b00000000;
   DIDR0 = 0b00111111;
-  
+
   ADCSRA = _BV(ADEN) | _BV(ADPS0); //enable adc
   //ADMUX |= _BV(REFS0) | _BV(ADLAR);
   ADMUX |= _BV(ADLAR);
@@ -87,21 +87,21 @@ int get_adc(){
 void adc_channel_select(int channel){
   if ((channel <= 5) && (channel >= 0)) {
     // set the channel in ADMUX register; left-align result
-	
+
 	//wait for conversion to complete.
 	//while(adc_conversion_in_progress());
 	//ADCSRA &= ~_BV(ADEN);
     //blink();
 	//update register
-	
+
 	//_delay_ms(1);
 	//channel = channel | _BV(REFS0) | _BV(ADLAR);
 	channel = channel | _BV(ADLAR);
 	ADMUX = channel;
-	
+
 	//re-enable adc
-	//ADCSRA = _BV(ADEN) | _BV(ADPS0); 
-    
+	//ADCSRA = _BV(ADEN) | _BV(ADPS0);
+
 	// discard the first conversion
     //get_adc();
   }
@@ -179,31 +179,31 @@ float getDistanceFromSensor(int adc_channel) {
 }
 
 // float getDistanceFromSensor1(){
-// 
+//
 // 	adc_channel_select(0);
 // 	return get_distance();
-// 
+//
 // }
-// 
+//
 // float getDistanceFromSensor2(){
-// 
+//
 // 	adc_channel_select(1);
 // 	return get_distance();
-// 
+//
 // }
-// 
+//
 // float getDistanceFromSensor3(){
-// 
+//
 // 	adc_channel_select(2);
 // 	return get_distance();
-// 
+//
 // }
-// 
+//
 // float getDistanceFromSensor4(){
-// 
+//
 // 	adc_channel_select(3);
 // 	return get_distance();
-// 
+//
 // }
 
 float building1(){
@@ -252,18 +252,18 @@ void align34(){
 int poll_sensors(){
   // holds the sensors values
   float sensorVals[4] = {0,0,0,0};
-  
+
   int i=0;
   for (i=0; i < 4; i++) {
     sensorVals[i] = getDistanceFromSensor(i);
   }
-  
+
   if ((sensorVals[0] < 30) || (sensorVals[1] < 30)) {
     alignFront(sensorVals[0], sensorVals[1]);
   }
 //   else if ((sensorVals[2] < 30) || (sensorVals[3] < 30)) {
 //     align34(sensorVal[
-  
+
 //   if((getDistanceFromSensor1() < 30) || (getDistanceFromSensor2() < 30)){
 //     align12();
 //     if((getDistanceFromSensor1() < 30) && (getDistanceFromSensor2() < 30) && (building1() > 30))
@@ -273,7 +273,7 @@ int poll_sensors(){
 //   }
 //   else if((getDistanceFromSensor4() < 30) || (getDistanceFromSensor3() < 30)){
 //     align34();
-//     if((getDistanceFromSensor3() < 30) && (getDistanceFromSensor4() < 30) && (building2() > 30)) 
+//     if((getDistanceFromSensor3() < 30) && (getDistanceFromSensor4() < 30) && (building2() > 30))
 //     {
 //       return 2;
 //     }
@@ -301,23 +301,23 @@ int rwContact(){
 int fwContact(){
 
 	if((PORTD&0b100000000) || (PORTD&0b000010000)){
-		
-	
+
+
 		return 1;
 	}
 	else{
-		
-	
+
+
 		return 0;
 	}
 }
 
 void evade() {
-  
+
 }
 
 void attack() {
-  
+
 }
 
 void setup_interrupts(){
@@ -325,7 +325,7 @@ void setup_interrupts(){
 	/*
 		enable pin change interrupts on PORTB and PORTD
 	*/
-	
+
 	//PCICR |= ~(_BV(PCIE1) && _BV(PCIE0) );
 	//1<<2 ---> 00000010
 	sei();
@@ -333,7 +333,7 @@ void setup_interrupts(){
 	PORTD |= 0b00010110;
 	/*
 	//PCIFR ---> set when interrupt happens
-	//PCIF0 --_> pin change on PORTB 
+	//PCIF0 --_> pin change on PORTB
 	//PCIF1 ---> pin change on PORTC
 	*/
 
@@ -348,9 +348,9 @@ void setup_interrupts(){
 		PB5 ---> PCINT5
 		PB7 ---> PCINT6
 		*/
-		
+
 	PCMSK0 |=0b10110001;
-	
+
 	/*
 		PD1 ---> PCINT16
 		PD2 ---> PCINT18        <---- Line Sensors
@@ -390,9 +390,9 @@ ISR(PCINT0_vect){
   if(PINB & CONTACT_RIGHT){
    turnLeft();
    //isContacted = 1;
-  }	
+  }
   // back
-  if(PINB & CONTACT_BACK){	
+  if(PINB & CONTACT_BACK){
     moveBackward();
     isContacted = 1;
     push(CONTACT_BACK);
@@ -403,7 +403,7 @@ ISR(PCINT0_vect){
     isContacted = 1;
     push(CONTACT_FRONT);
   }
-  PCIFR = 0b00000000; 
+  PCIFR = 0b00000000;
 }
 
 ISR(PCINT2_vect){
@@ -424,9 +424,9 @@ ISR(PCINT2_vect){
     // turnLeft();
     // _delay_ms(2000);
     // moveForward();
-  // }	
+  // }
   //back left
-  else if(PIND & LINE_BACK_LEFT){	
+  else if(PIND & LINE_BACK_LEFT){
     stop();
 	blink1();
 	moveForward();
@@ -448,7 +448,7 @@ ISR(PCINT2_vect){
   if (isContacted) {
     win();
   }
-PCIFR = 0b00000000; 
+PCIFR = 0b00000000;
 }
 /*
 void setupContactSensors(){

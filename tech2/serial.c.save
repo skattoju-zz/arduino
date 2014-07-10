@@ -4,7 +4,7 @@
 #include <stdlib.h>
 void serial_init(unsigned int BAUD_PRESCALE){
 
-	// Load lower 8-bits of the baud rate value into the low byte of the UBRR register 
+	// Load lower 8-bits of the baud rate value into the low byte of the UBRR register
   	UBRRL = BAUD_PRESCALE;
 	// Load upper 8-bits of the baud rate value into the high byte of the UBRR register
   	UBRRH = (BAUD_PRESCALE >> 8);
@@ -23,7 +23,7 @@ void serial_init(unsigned int BAUD_PRESCALE){
 void _serial_write(unsigned char c)
 {
 
-	
+
 	//wait for UDR to be ready for data
 	while ( !(UCSRA & (1 << UDRE)) );
 

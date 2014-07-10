@@ -13,7 +13,7 @@ based on https://www.mainframe.cx/~ckuethe/avr-c-tutorial/lesson7b.c
 
 static int speed_old = 0;
 		static uint16_t pwm = 0;
-		
+
 void setup_pwm(){
 	// pin PB1 / pin 15
 	DDRB |= 1 << 1;

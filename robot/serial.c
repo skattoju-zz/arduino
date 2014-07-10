@@ -19,14 +19,14 @@ void serial_init(unsigned int baud){
   UCSR0B = 0b11101000;
 
   //UCSR0C = 1 <<UMSELn1;
-  UCSR0C = (1 << UMSEL01) | 0b10000110; // no parity, 8 data bits, 1 stop bits 
-  
+  UCSR0C = (1 << UMSEL01) | 0b10000110; // no parity, 8 data bits, 1 stop bits
+
 }
 
 void _serial_write(unsigned char c)
 {
 
-	
+
 	//wait for UDR to be ready for data
 	while ( !(UCSR0A & (1 << UDRE0)) ) {}
 

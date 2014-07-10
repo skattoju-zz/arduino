@@ -86,7 +86,7 @@ uint8_t calc_avg(uint8_t adcval ) {
 
 int get_avg_adc(){
 
-	
+
 	int sum = 0;
 	int avg;
 	int i = 0;
@@ -107,16 +107,16 @@ int get_avg_adc(){
 }
 
 float get_voltage() {
-	
+
 }
 
 float get_distance(){
-	
+
 	//uint8_t distance;
 	//uint8_t v1;
 	//uint8_t d1;
 	uint8_t adc_value = calc_avg(get_adc());
-	
+
 	if (adc_value > voltages[0]) {
 	int i =0;
 	for (i=0; i < 5; i++) {
